@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
+import { Header } from '@/components/header'
+import { CartProvider } from '@/context/cart-context'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
@@ -44,7 +46,12 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className="h-full antialiased">
       <body className="flex min-h-full flex-col">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <CartProvider>
+            <Header />
+            {children}
+          </CartProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

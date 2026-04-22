@@ -7,6 +7,11 @@
     "title": "Mobile Shop",
     "description": "Scaffold listo. La vista de listado se implementa en la siguiente fase."
   },
+  "header": {
+    "homeAriaLabel": "Ir al inicio",
+    "cartAriaLabel": "Carrito, {count, plural, =0 {sin artículos} one {# artículo} other {# artículos}}",
+    "back": "Volver"
+  },
   "localeSwitcher": {
     "label": "Idioma",
     "es": "Español",
