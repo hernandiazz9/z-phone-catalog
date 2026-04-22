@@ -56,6 +56,16 @@
    * navigation labels (0.2em) and brand/category caps (0.25em). */
   --tracking-label: 0.2em;
   --tracking-brand: 0.25em;
+
+  /* Responsive breakpoints — semantic names matched to the three Figma
+   * design frames (mobile 393 / tablet 834 / desktop 1920). The wildcard
+   * reset wipes Tailwind's default sm/md/lg/xl/2xl so the codebase has a
+   * single vocabulary (`tablet:`, `desktop:`, `wide:`) aligned 1:1 with
+   * the design — no ambiguity between `lg:` and "desktop". */
+  --breakpoint-*: initial;
+  --breakpoint-tablet: 48rem;
+  --breakpoint-desktop: 80rem;
+  --breakpoint-wide: 96rem;
 }
 
 html {

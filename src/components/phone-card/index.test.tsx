@@ -5,9 +5,12 @@ import enMessages from '../../../messages/en.json'
 import { PhoneCard } from '.'
 
 vi.mock('next/image', () => ({
-  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+  default: ({
+    priority,
+    ...props
+  }: React.ImgHTMLAttributes<HTMLImageElement> & { priority?: boolean }) => (
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-    <img {...props} />
+    <img {...props} loading={priority ? 'eager' : 'lazy'} />
   ),
 }))
 
@@ -34,10 +37,10 @@ const samplePhone = {
   imageUrl: 'http://example.test/iphone.webp',
 }
 
-function renderCard() {
+function renderCard(priority = false) {
   return render(
     <NextIntlClientProvider locale="en" messages={enMessages}>
-      <PhoneCard phone={samplePhone} />
+      <PhoneCard phone={samplePhone} priority={priority} />
     </NextIntlClientProvider>,
   )
 }
@@ -59,5 +62,15 @@ describe('phone-card', () => {
   it('uses the phone name as image alt text', () => {
     renderCard()
     expect(screen.getByAltText('iPhone 13')).toBeInTheDocument()
+  })
+
+  it('lazy-loads the image by default', () => {
+    renderCard()
+    expect(screen.getByAltText('iPhone 13')).toHaveAttribute('loading', 'lazy')
+  })
+
+  it('eager-loads the image when priority is true', () => {
+    renderCard(true)
+    expect(screen.getByAltText('iPhone 13')).toHaveAttribute('loading', 'eager')
   })
 })

@@ -8,7 +8,7 @@ export async function Header() {
 
   return (
     <header className="border-border bg-background w-full border-b">
-      <div className="max-w-page mx-auto flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-10 2xl:px-25">
+      <div className="max-w-page tablet:px-6 desktop:px-10 wide:px-25 mx-auto flex h-16 w-full items-center justify-between px-4">
         <Link
           href="/"
           aria-label={t('homeAriaLabel')}
