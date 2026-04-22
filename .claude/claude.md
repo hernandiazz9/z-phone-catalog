@@ -58,7 +58,30 @@ src/
   ```
   Arrow functions are fine for inline callbacks and small utilities.
 
-## 4. Server vs Client Components
+## 4. Code style — language & comments
+
+- **Everything in the codebase is in English.** Identifiers, file names,
+  comments, JSDoc, commit messages, error strings, test descriptions, log
+  output — all English. The **only** exception is user-facing copy, which
+  lives in `messages/{locale}.json` (Spanish, English, and any future
+  locale).
+- **No comments unless genuinely useful.** Prefer clear names over
+  comments. A comment is only justified when it explains **why** (a
+  non-obvious decision, a workaround, a spec reference, a gotcha), never
+  **what** the code does.
+- Bad comment (restates the code):
+  ```ts
+  // increment counter
+  counter += 1
+  ```
+- Good comment (explains a decision / constraint):
+  ```ts
+  // Challenge PDF forces server-side search; revalidate: false keeps
+  // keystroke responses fresh without trashing the ISR cache.
+  revalidate: search ? false : DEFAULT_REVALIDATE_SECONDS
+  ```
+
+## 5. Server vs Client Components
 
 - **Default to Server Components.** Add `'use client'` only when the file
   genuinely needs state, effects, event handlers or browser APIs.
@@ -67,7 +90,7 @@ src/
   on runtime state (e.g. the cart in `localStorage`).
 - Never import a Server Component from a Client Component.
 
-## 5. Styling — Tailwind v4 only
+## 6. Styling — Tailwind v4 only
 
 - **No CSS modules, no styled-components, no inline `style={{}}`** unless
   genuinely dynamic (e.g. a computed colour from data).
@@ -81,7 +104,7 @@ src/
   a new colour means adding a token there first, then using the utility.
 - Conditional / merged classes: use `clsx` + `tailwind-merge` (both installed).
 
-## 6. i18n
+## 7. i18n
 
 - **No hardcoded user-facing strings in JSX.** Every visible string comes
   from `messages/{locale}.json`.
@@ -93,7 +116,7 @@ src/
   `redirect` from `@/i18n/navigation`. Never from `next/link` or
   `next/navigation` (they don't know about the `[locale]` segment).
 
-## 7. State management
+## 8. State management
 
 - **React Context API** for global state (Zara challenge requirement). One
   provider per domain in `src/context/`.
@@ -102,7 +125,7 @@ src/
 - Avoid prop-drilling more than two levels deep — if you do, reach for a
   context.
 
-## 8. Imports
+## 9. Imports
 
 - Always use path aliases defined in `tsconfig.json`:
   `@/…`, `@components/…`, `@context/…`, `@hooks/…`, `@services/…`,
@@ -111,7 +134,7 @@ src/
 - Order (ESLint handles it): node builtins → external packages → internal
   aliases → relative → styles.
 
-## 9. Testing
+## 10. Testing
 
 - Vitest + React Testing Library + `@testing-library/jest-dom`.
 - Every component with logic and every hook has at least one test.
@@ -119,7 +142,7 @@ src/
   `NextIntlClientProvider` and pass a minimal messages object.
 - Prefer `userEvent` over `fireEvent` for user interactions.
 
-## 10. Accessibility
+## 11. Accessibility
 
 - All `jsx-a11y` ESLint rules must pass (no disables without a comment).
 - Every interactive element has a discernible name (visible text or
@@ -128,7 +151,7 @@ src/
 - `focus-visible` outline is already globally styled in `globals.css`;
   don't remove it.
 
-## 11. Next.js 16 specifics
+## 12. Next.js 16 specifics
 
 - The project runs Next.js 16, not 15 or earlier. Breaking changes include:
   - `middleware.ts` is renamed to `proxy.ts`.
@@ -137,7 +160,7 @@ src/
   - Read the relevant doc in `node_modules/next/dist/docs/` before using
     an API you haven't touched yet in this codebase.
 
-## 12. Commits & PRs
+## 13. Commits & PRs
 
 - **Conventional Commits** in English: `feat:`, `fix:`, `chore:`,
   `refactor:`, `test:`, `docs:`, `style:`, `perf:`.
@@ -147,7 +170,7 @@ src/
 - Pre-commit hook (Husky + lint-staged) will run ESLint + Prettier on
   staged files — don't bypass with `--no-verify`.
 
-## 13. Quality gates
+## 14. Quality gates
 
 Before declaring any task done, these must pass:
 

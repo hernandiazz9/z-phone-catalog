@@ -1,45 +1,36 @@
 @import 'tailwindcss';
 
-/* ============================================================================
- * Design tokens — Tailwind v4 (CSS-first config).
- *
- * Cada token declarado dentro de @theme genera utilidades automáticas:
- *   --color-primary  → bg-primary, text-primary, border-primary, outline-primary
- *   --color-muted    → text-muted, bg-muted, border-muted
- *   --font-sans      → font-sans
- *
- * Valores extraídos del Figma oficial del challenge (Sin-título — Zara Web
- * Challenge, nodos 53:1025 Listado y 53:1229 Detalle). Los nombres entre
- * paréntesis corresponden a las variables originales del archivo.
- *
- * Referencia: https://tailwindcss.com/docs/theme
- * ========================================================================== */
+/* Design tokens — Tailwind v4 CSS-first config.
+ * Every token declared inside @theme becomes an auto-generated utility
+ * (e.g. --color-primary → bg-primary, text-primary, border-primary).
+ * Values sourced from the challenge Figma file (nodes 53:1025 list view
+ * and 53:1229 detail view). Original Figma variable names are kept on
+ * each line for traceability. */
 @theme {
-  /* Foreground / CTAs — SDS/Basic/Black · SDS/Content/1 */
+  /* SDS/Basic/Black · SDS/Content/1 */
   --color-primary: #000000;
-  /* Texto sobre primary (botón AÑADIR) — SDS/Content/Inverse */
+  /* SDS/Content/Inverse */
   --color-primary-foreground: #ffffff;
 
-  /* Fondo de página — DOC/Background/Base */
+  /* DOC/Background/Base */
   --color-background: #ffffff;
-  /* Color de texto por defecto — SDS/Content/1 */
+  /* SDS/Content/1 */
   --color-foreground: #000000;
 
-  /* Selección / pill activa — SDS/Semantic/Highlight/Default */
+  /* SDS/Semantic/Highlight/Default */
   --color-highlight: #1b1a18;
 
-  /* Texto secundario / placeholder / disabled — SDS/Content/States/Disabled */
+  /* SDS/Content/States/Disabled */
   --color-muted: #c2bfbc;
 
-  /* Fondo de estados disabled — SDS/Background/States/Disabled */
+  /* SDS/Background/States/Disabled */
   --color-surface: #f3f2f2;
 
-  /* Separadores / líneas del grid de tarjetas — DOC/Background/Mid */
+  /* DOC/Background/Mid */
   --color-border: #ebebeb;
 
-  /* Typography — el PDF del challenge es la fuente de verdad y dicta
-   * exactamente: font-family: Helvetica, Arial, sans-serif. Figma usa
-   * "Neue Helvetica for Zara" (propietaria) solo como referencia visual. */
+  /* The challenge PDF mandates this exact font stack. Figma's display
+   * family ("Neue Helvetica for Zara") is proprietary and ignored. */
   --font-sans: Helvetica, Arial, sans-serif;
 }
 

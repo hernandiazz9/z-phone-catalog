@@ -17,7 +17,6 @@ export function LocaleSwitcher() {
   function onChange(event: React.ChangeEvent<HTMLSelectElement>) {
     const next = event.target.value as Locale
     startTransition(() => {
-      // Mantiene la ruta actual (con sus params) pero cambiando de locale.
       router.replace(
         // @ts-expect-error - `params` is loosely typed by next/navigation
         { pathname, params },
