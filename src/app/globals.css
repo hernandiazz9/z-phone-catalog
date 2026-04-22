@@ -1,26 +1,66 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================================
+ * Design tokens — Tailwind v4 (CSS-first config).
+ *
+ * Cada token declarado dentro de @theme genera utilidades automáticas:
+ *   --color-primary  → bg-primary, text-primary, border-primary, outline-primary
+ *   --color-muted    → text-muted, bg-muted, border-muted
+ *   --font-sans      → font-sans
+ *
+ * Valores extraídos del Figma oficial del challenge (Sin-título — Zara Web
+ * Challenge, nodos 53:1025 Listado y 53:1229 Detalle). Los nombres entre
+ * paréntesis corresponden a las variables originales del archivo.
+ *
+ * Referencia: https://tailwindcss.com/docs/theme
+ * ========================================================================== */
+@theme {
+  /* Foreground / CTAs — SDS/Basic/Black · SDS/Content/1 */
+  --color-primary: #000000;
+  /* Texto sobre primary (botón AÑADIR) — SDS/Content/Inverse */
+  --color-primary-foreground: #ffffff;
+
+  /* Fondo de página — DOC/Background/Base */
+  --color-background: #ffffff;
+  /* Color de texto por defecto — SDS/Content/1 */
+  --color-foreground: #000000;
+
+  /* Selección / pill activa — SDS/Semantic/Highlight/Default */
+  --color-highlight: #1b1a18;
+
+  /* Texto secundario / placeholder / disabled — SDS/Content/States/Disabled */
+  --color-muted: #c2bfbc;
+
+  /* Fondo de estados disabled — SDS/Background/States/Disabled */
+  --color-surface: #f3f2f2;
+
+  /* Separadores / líneas del grid de tarjetas — DOC/Background/Mid */
+  --color-border: #ebebeb;
+
+  /* Typography — el PDF del challenge es la fuente de verdad y dicta
+   * exactamente: font-family: Helvetica, Arial, sans-serif. Figma usa
+   * "Neue Helvetica for Zara" (propietaria) solo como referencia visual. */
+  --font-sans: Helvetica, Arial, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  height: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-foreground);
+  outline-offset: 2px;
 }

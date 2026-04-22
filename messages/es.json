@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "title": "Mobile Shop",
+    "description": "Catálogo de teléfonos móviles — Zara Challenge"
+  },
+  "home": {
+    "title": "Mobile Shop",
+    "description": "Scaffold listo. La vista de listado se implementa en la siguiente fase."
+  },
+  "localeSwitcher": {
+    "label": "Idioma",
+    "es": "Español",
+    "en": "English"
+  }
+}

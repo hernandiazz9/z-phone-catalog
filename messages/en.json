@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "title": "Mobile Shop",
+    "description": "Mobile phones catalog — Zara Challenge"
+  },
+  "home": {
+    "title": "Mobile Shop",
+    "description": "Scaffold ready. The listing view will be implemented in the next phase."
+  },
+  "localeSwitcher": {
+    "label": "Language",
+    "es": "Spanish",
+    "en": "English"
+  }
+}
