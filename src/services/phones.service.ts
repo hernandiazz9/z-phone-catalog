@@ -69,7 +69,7 @@ export async function listPhones({ search, limit = DEFAULT_LIMIT }: ListPhonesAr
   })
 
   // The upstream catalog currently contains duplicate product IDs. Dedupe
-  // by id so every consumer gets stable unique keys; slicing locally also
+  // Filter by id so every consumer gets stable unique keys; slicing locally also
   // protects against the API silently ignoring `limit`.
   const seen = new Set<string>()
   const unique: PhoneListItem[] = []
@@ -81,7 +81,23 @@ export async function listPhones({ search, limit = DEFAULT_LIMIT }: ListPhonesAr
   return unique.slice(0, limit)
 }
 
-export async function getPhoneById(id: string): Promise<Phone> {
+export async function getPhoneById(id: string): Promise<Phone | null> {
   if (!id) throw new Error('getPhoneById: id is required')
-  return fetchFromApi<Phone>({ path: `/products/${encodeURIComponent(id)}` })
+
+  const { baseUrl, apiKey } = getApiConfig()
+  const url = `${baseUrl}/products/${encodeURIComponent(id)}`
+
+  const response = await fetch(url, {
+    headers: { 'x-api-key': apiKey },
+    next: { revalidate: DEFAULT_REVALIDATE_SECONDS },
+  })
+
+  if (response.status === 404) return null
+  if (!response.ok) {
+    throw new Error(
+      `Phones API request failed (${response.status} ${response.statusText}) for /products/${id}`,
+    )
+  }
+
+  return (await response.json()) as Phone
 }

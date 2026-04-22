@@ -26,5 +26,34 @@
     "label": "Idioma",
     "es": "Español",
     "en": "English"
+  },
+  "phoneDetail": {
+    "backAriaLabel": "Volver al catálogo",
+    "priceLabel": "{price} EUR",
+    "fromPriceLabel": "Desde {price} EUR",
+    "storageLabel": "Almacenamiento · ¿cuánto espacio necesitas?",
+    "storageGroupAriaLabel": "Selecciona capacidad de almacenamiento",
+    "colorLabel": "Color · elige tu favorito",
+    "colorGroupAriaLabel": "Selecciona color",
+    "addToCart": "Añadir",
+    "addedToCart": "Añadido",
+    "specifications": "Especificaciones",
+    "similarItems": "Productos similares",
+    "notFoundTitle": "Teléfono no encontrado",
+    "notFoundBody": "No hemos podido encontrar el smartphone que buscas.",
+    "notFoundCta": "Volver al catálogo",
+    "specs": {
+      "brand": "Marca",
+      "name": "Nombre",
+      "description": "Descripción",
+      "screen": "Pantalla",
+      "resolution": "Resolución",
+      "processor": "Procesador",
+      "mainCamera": "Cámara principal",
+      "selfieCamera": "Cámara frontal",
+      "battery": "Batería",
+      "os": "Sistema operativo",
+      "screenRefreshRate": "Tasa de refresco"
+    }
   }
 }

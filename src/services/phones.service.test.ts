@@ -134,6 +134,20 @@ describe('phones.service', () => {
     await expect(listPhones()).rejects.toThrow(/500 Boom/)
   })
 
+  it('getPhoneById returns null when the upstream returns 404', async () => {
+    fetchMock.mockResolvedValueOnce(new Response('not found', { status: 404 }))
+    const { getPhoneById } = await import('./phones.service')
+
+    await expect(getPhoneById('DOES-NOT-EXIST')).resolves.toBeNull()
+  })
+
+  it('getPhoneById rethrows non-404 failures', async () => {
+    fetchMock.mockResolvedValueOnce(new Response('down', { status: 503, statusText: 'Down' }))
+    const { getPhoneById } = await import('./phones.service')
+
+    await expect(getPhoneById('any')).rejects.toThrow(/503 Down/)
+  })
+
   it('throws when PHONES_API_KEY is missing', async () => {
     vi.stubEnv('PHONES_API_KEY', '')
     const { listPhones } = await import('./phones.service')

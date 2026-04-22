@@ -26,5 +26,46 @@
     "label": "Language",
     "es": "Spanish",
     "en": "English"
+  },
+  "cart": {
+    "title": "Cart ({count})",
+    "itemSpecs": "{storage} | {color}",
+    "priceLabel": "{price} EUR",
+    "remove": "Remove",
+    "removeAriaLabel": "Remove {name} from cart",
+    "total": "Total",
+    "continueShopping": "Continue shopping",
+    "pay": "Pay",
+    "emptyTitle": "Your cart is empty",
+    "emptyBody": "Browse the catalog and add the phone you love to your cart."
+  },
+  "phoneDetail": {
+    "backAriaLabel": "Back to catalog",
+    "priceLabel": "{price} EUR",
+    "fromPriceLabel": "From {price} EUR",
+    "storageLabel": "Storage · how much space do you need?",
+    "storageGroupAriaLabel": "Select storage capacity",
+    "colorLabel": "Color · pick your favourite",
+    "colorGroupAriaLabel": "Select color",
+    "addToCart": "Add",
+    "addedToCart": "Added",
+    "specifications": "Specifications",
+    "similarItems": "Similar items",
+    "notFoundTitle": "Phone not found",
+    "notFoundBody": "We couldn’t find the smartphone you’re looking for.",
+    "notFoundCta": "Back to catalog",
+    "specs": {
+      "brand": "Brand",
+      "name": "Name",
+      "description": "Description",
+      "screen": "Screen",
+      "resolution": "Resolution",
+      "processor": "Processor",
+      "mainCamera": "Main camera",
+      "selfieCamera": "Selfie camera",
+      "battery": "Battery",
+      "os": "OS",
+      "screenRefreshRate": "Screen refresh rate"
+    }
   }
 }

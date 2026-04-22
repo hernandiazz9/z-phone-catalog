@@ -20,15 +20,45 @@ codebase and ask before inventing a new one.
 
 ## 1. File & folder naming
 
-- **Every file is kebab-case**, including components:
-  - ✅ `locale-switcher.tsx`, `use-cart.ts`, `format-price.ts`, `phone.types.ts`
-  - ❌ `LocaleSwitcher.tsx`, `useCart.ts`, `formatPrice.ts`
-- **Tests** live next to the file they test: `locale-switcher.test.tsx`.
+- **Every file and folder is kebab-case**:
+  - ✅ `locale-switcher`, `use-cart`, `format-price`, `phone.types`
+  - ❌ `LocaleSwitcher`, `useCart`, `formatPrice`
+- **Every React component lives in its own folder** with `index.tsx` as
+  the primary file. This applies **recursively** — sub-components of a
+  feature live in folders **inside** the parent feature folder, not as
+  flat sibling `.tsx` files. No exceptions, no "I'll just drop a quick
+  file next to it". Consistency beats convenience.
+
+  ```
+  src/components/phone-detail/
+  ├── index.tsx                   the PhoneDetail orchestrator
+  ├── add-to-cart-button/
+  │   ├── index.tsx               the AddToCartButton component
+  │   └── index.test.tsx          test in the same folder, named index.test.tsx
+  ├── color-selector/
+  │   ├── index.tsx
+  │   └── index.test.tsx
+  ├── specs-table/
+  │   └── index.tsx               tests are optional, the folder is not
+  └── …
+  ```
+
+  Rationale: if some components are folders and others are flat `.tsx`
+  files, the repo slowly rots into two mental models. Pick one and stick
+  to it at every nesting level.
+
+- **Tests** live next to the file they test, named `index.test.tsx`
+  (or `index.test.ts` for non-JSX modules). Same folder — never a
+  separate `__tests__/` directory.
 - **Types** are co-located with the module that owns them as `*.types.ts`.
   Only move to `src/types/` when a type is genuinely cross-cutting.
-- The only capitalised filenames allowed are the ones Next.js requires
-  (`README.md`, `CLAUDE.md`, `AGENTS.md`) and the dynamic segments
-  (`[locale]`, `[id]`, etc.).
+- **Non-component modules** (services, utils, hooks, context) follow the
+  same folder-per-module pattern whenever they have co-located tests,
+  types, or sub-files. A standalone one-file util can stay flat, but the
+  moment it gains a test or a `.types.ts`, fold it into a folder.
+- The only capitalised filenames allowed are the ones Next.js / tooling
+  requires (`README.md`, `CLAUDE.md`, `AGENTS.md`) and the dynamic
+  segments (`[locale]`, `[id]`, etc.).
 
 ## 2. Folder structure (under `src/`)
 
@@ -49,8 +79,9 @@ src/
 - **Named exports only.** `export default` is reserved for the files Next.js
   requires it (`page.tsx`, `layout.tsx`, `not-found.tsx`, `error.tsx`,
   `loading.tsx`, `proxy.ts`, `next.config.ts`).
-- **One component per file.** Filename matches the exported component in
-  kebab-case (`locale-switcher.tsx` exports `LocaleSwitcher`).
+- **One component per file.** The component's **folder name** (kebab-case)
+  matches the exported name (PascalCase): `locale-switcher/index.tsx`
+  exports `LocaleSwitcher`.
 - **Function declarations** over arrow functions for components:
   ```text
   export function LocaleSwitcher() { ... }    // ✅

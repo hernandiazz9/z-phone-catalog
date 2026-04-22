@@ -1,0 +1,49 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
+import { useCart } from '@/context/cart-context'
+import type { ColorOption, Phone, StorageOption } from '@/services/phones.types'
+
+type Props = {
+  phone: Pick<Phone, 'id' | 'brand' | 'name'>
+  color: ColorOption | null
+  storage: StorageOption | null
+}
+
+const FEEDBACK_MS = 1500
+
+export function AddToCartButton({ phone, color, storage }: Props) {
+  const t = useTranslations('phoneDetail')
+  const { addItem } = useCart()
+  const [justAdded, setJustAdded] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+  }, [])
+
+  const disabled = !color || !storage
+
+  function handleClick() {
+    if (!color || !storage) return
+    addItem({ phone, color, storage })
+    setJustAdded(true)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => setJustAdded(false), FEEDBACK_MS)
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={disabled}
+      aria-live="polite"
+      className="focus-visible:outline-foreground bg-foreground text-primary-foreground hover:bg-highlight disabled:bg-border disabled:text-muted h-14 w-full text-sm tracking-widest uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed"
+    >
+      {justAdded ? t('addedToCart') : t('addToCart')}
+    </button>
+  )
+}
