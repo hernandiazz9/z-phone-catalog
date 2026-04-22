@@ -44,5 +44,4 @@ export type Phone = {
 export type ListPhonesArgs = {
   search?: string
   limit?: number
-  offset?: number
 }

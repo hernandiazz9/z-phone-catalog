@@ -28,12 +28,12 @@ describe('phones.service', () => {
     })
   }
 
-  it('listPhones sends the x-api-key header and forwards search/limit/offset', async () => {
+  it('listPhones sends the x-api-key header and forwards the search param', async () => {
     const body = [{ id: 'ABC', brand: 'Acme', name: 'X', basePrice: 1, imageUrl: 'u' }]
     fetchMock.mockResolvedValueOnce(okResponse(body))
 
     const { listPhones } = await import('./phones.service')
-    const result = await listPhones({ search: 'galaxy', limit: 20, offset: 0 })
+    const result = await listPhones({ search: 'galaxy' })
 
     expect(result).toEqual(body)
     expect(fetchMock).toHaveBeenCalledTimes(1)
@@ -42,9 +42,44 @@ describe('phones.service', () => {
     const parsed = new URL(String(url))
     expect(parsed.origin + parsed.pathname).toBe('https://api.example.test/products')
     expect(parsed.searchParams.get('search')).toBe('galaxy')
-    expect(parsed.searchParams.get('limit')).toBe('20')
-    expect(parsed.searchParams.get('offset')).toBe('0')
+    // Pagination is applied locally, never forwarded to the upstream API.
+    expect(parsed.searchParams.has('limit')).toBe(false)
+    expect(parsed.searchParams.has('offset')).toBe(false)
     expect(init?.headers).toMatchObject({ 'x-api-key': 'test-key-123' })
+  })
+
+  it('listPhones dedupes by id and caps the result to the limit argument', async () => {
+    const body = [
+      { id: 'A', brand: 'X', name: 'A', basePrice: 1, imageUrl: 'u' },
+      { id: 'B', brand: 'X', name: 'B', basePrice: 2, imageUrl: 'u' },
+      { id: 'A', brand: 'X', name: 'A-dup', basePrice: 1, imageUrl: 'u' },
+      { id: 'C', brand: 'X', name: 'C', basePrice: 3, imageUrl: 'u' },
+      { id: 'D', brand: 'X', name: 'D', basePrice: 4, imageUrl: 'u' },
+    ]
+    fetchMock.mockResolvedValueOnce(okResponse(body))
+
+    const { listPhones } = await import('./phones.service')
+    const result = await listPhones({ limit: 3 })
+
+    expect(result.map((item) => item.id)).toEqual(['A', 'B', 'C'])
+  })
+
+  it('listPhones defaults the limit to 20', async () => {
+    const body = Array.from({ length: 30 }, (_, i) => ({
+      id: `ID-${i}`,
+      brand: 'X',
+      name: `P${i}`,
+      basePrice: i,
+      imageUrl: 'u',
+    }))
+    fetchMock.mockResolvedValueOnce(okResponse(body))
+
+    const { listPhones } = await import('./phones.service')
+    const result = await listPhones()
+
+    expect(result).toHaveLength(20)
+    expect(result[0].id).toBe('ID-0')
+    expect(result[19].id).toBe('ID-19')
   })
 
   it('listPhones uses no-store when searching and revalidate otherwise', async () => {

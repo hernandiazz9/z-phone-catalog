@@ -12,6 +12,16 @@
     "cartAriaLabel": "Cart, {count, plural, =0 {empty} one {# item} other {# items}}",
     "back": "Back"
   },
+  "phoneList": {
+    "searchPlaceholder": "Search for a smartphone…",
+    "searchAriaLabel": "Search smartphones by name or brand",
+    "clearSearchAriaLabel": "Clear search",
+    "resultsCount": "{count, plural, =0 {# RESULTS} one {# RESULT} other {# RESULTS}}",
+    "empty": "No results for “{query}”.",
+    "priceLabel": "{price} EUR",
+    "errorTitle": "Failed to load the catalog",
+    "errorBody": "We couldn’t load the phones. Please try again in a few seconds."
+  },
   "localeSwitcher": {
     "label": "Language",
     "es": "Spanish",

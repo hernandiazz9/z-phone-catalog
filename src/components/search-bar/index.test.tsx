@@ -1,0 +1,72 @@
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { NextIntlClientProvider } from 'next-intl'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import enMessages from '../../../messages/en.json'
+import { SearchBar } from '.'
+
+const replaceMock = vi.fn()
+let searchParamsString = ''
+
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({
+    get: (key: string) => new URLSearchParams(searchParamsString).get(key),
+    toString: () => searchParamsString,
+  }),
+}))
+
+vi.mock('@/i18n/navigation', () => ({
+  useRouter: () => ({ replace: replaceMock }),
+  usePathname: () => '/',
+}))
+
+function renderBar() {
+  return render(
+    <NextIntlClientProvider locale="en" messages={enMessages}>
+      <SearchBar />
+    </NextIntlClientProvider>,
+  )
+}
+
+describe('search-bar', () => {
+  beforeEach(() => {
+    replaceMock.mockClear()
+    searchParamsString = ''
+  })
+
+  it('debounces typing and updates the URL with the trimmed query', async () => {
+    const user = userEvent.setup()
+    renderBar()
+
+    const input = screen.getByRole('searchbox')
+    await user.type(input, 'iphone')
+
+    expect(replaceMock).not.toHaveBeenCalled()
+    await waitFor(
+      () => {
+        expect(replaceMock).toHaveBeenCalledWith('/?search=iphone', { scroll: false })
+      },
+      { timeout: 1000 },
+    )
+  })
+
+  it('shows a clear button when the input has value and resets the URL on click', async () => {
+    const user = userEvent.setup()
+    renderBar()
+    const input = screen.getByRole('searchbox') as HTMLInputElement
+
+    await user.type(input, 'galaxy')
+    const clearButton = screen.getByRole('button', { name: /clear search/i })
+    await user.click(clearButton)
+
+    expect(input.value).toBe('')
+    expect(replaceMock).toHaveBeenLastCalledWith('/', { scroll: false })
+  })
+
+  it('hydrates initial value from URL searchParams', () => {
+    searchParamsString = 'search=pixel'
+    renderBar()
+    const input = screen.getByRole('searchbox') as HTMLInputElement
+    expect(input.value).toBe('pixel')
+  })
+})

@@ -12,6 +12,16 @@
     "cartAriaLabel": "Carrito, {count, plural, =0 {sin artículos} one {# artículo} other {# artículos}}",
     "back": "Volver"
   },
+  "phoneList": {
+    "searchPlaceholder": "Buscar un smartphone…",
+    "searchAriaLabel": "Buscar smartphones por nombre o marca",
+    "clearSearchAriaLabel": "Borrar búsqueda",
+    "resultsCount": "{count, plural, =0 {# RESULTADOS} one {# RESULTADO} other {# RESULTADOS}}",
+    "empty": "No hay resultados para «{query}».",
+    "priceLabel": "{price} EUR",
+    "errorTitle": "Error al cargar el catálogo",
+    "errorBody": "No hemos podido cargar los teléfonos. Inténtalo de nuevo en unos segundos."
+  },
   "localeSwitcher": {
     "label": "Idioma",
     "es": "Español",

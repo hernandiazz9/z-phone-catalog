@@ -94,6 +94,17 @@ src/
 
 - **No CSS modules, no styled-components, no inline `style={{}}`** unless
   genuinely dynamic (e.g. a computed colour from data).
+- **Prefer built-in Tailwind utilities** over arbitrary values `[...]`.
+  Before writing `duration-[400ms]`, check whether `duration-300`,
+  `duration-500`, etc. already exist. Before writing `tracking-[0.1em]`,
+  check whether `tracking-widest` does the job. Tailwind v4's spacing
+  scale is dynamic — `px-25` = 100px works out of the box.
+- **If a value is part of the design system and no built-in matches**,
+  add a token to `@theme` in `src/app/globals.css` and use the named
+  utility it generates. `tracking-[0.25em]` repeated 3× means you need
+  `--tracking-brand: 0.25em` → `tracking-brand`.
+- **Arbitrary values `[...]` are a last resort**, only acceptable for
+  genuinely one-off values that aren't worth a token.
 - **Forbidden**: arbitrary values that dereference our own tokens.
   ```text
   className="text-[color:var(--color-muted)]"  // ❌ ugly and bypasses tokens

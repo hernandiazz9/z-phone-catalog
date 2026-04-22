@@ -56,15 +56,29 @@ async function fetchFromApi<T>({
   return (await response.json()) as T
 }
 
-export async function listPhones({ search, limit, offset }: ListPhonesArgs = {}): Promise<
+const DEFAULT_LIMIT = 20
+
+export async function listPhones({ search, limit = DEFAULT_LIMIT }: ListPhonesArgs = {}): Promise<
   PhoneListItem[]
 > {
-  return fetchFromApi<PhoneListItem[]>({
+  const raw = await fetchFromApi<PhoneListItem[]>({
     path: '/products',
-    searchParams: { search, limit, offset },
+    searchParams: { search },
     // Search results must stay fresh per keystroke; unfiltered lists use ISR.
     revalidate: search ? false : DEFAULT_REVALIDATE_SECONDS,
   })
+
+  // The upstream catalog currently contains duplicate product IDs. Dedupe
+  // by id so every consumer gets stable unique keys; slicing locally also
+  // protects against the API silently ignoring `limit`.
+  const seen = new Set<string>()
+  const unique: PhoneListItem[] = []
+  for (const item of raw) {
+    if (seen.has(item.id)) continue
+    seen.add(item.id)
+    unique.push(item)
+  }
+  return unique.slice(0, limit)
 }
 
 export async function getPhoneById(id: string): Promise<Phone> {

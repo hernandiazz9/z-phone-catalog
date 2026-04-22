@@ -20,8 +20,15 @@
   /* SDS/Semantic/Highlight/Default */
   --color-highlight: #1b1a18;
 
-  /* SDS/Content/States/Disabled */
-  --color-muted: #c2bfbc;
+  /* Brand / secondary text — matches the hard-coded value used in the
+   * card component (Figma 53:1028). The SDS/Content/States/Disabled token
+   * (#c2bfbc) was too light for legible secondary copy. */
+  --color-muted: #79736d;
+
+  /* Muted text on inverted (dark) backgrounds — used for brand labels
+   * inside hovered cards (Figma 53:7860, State=Hover). Keeps the same
+   * visual hierarchy as --color-muted does on light backgrounds. */
+  --color-muted-inverse: #cccccc;
 
   /* SDS/Background/States/Disabled */
   --color-surface: #f3f2f2;
@@ -32,6 +39,23 @@
   /* The challenge PDF mandates this exact font stack. Figma's display
    * family ("Neue Helvetica for Zara") is proprietary and ignored. */
   --font-sans: Helvetica, Arial, sans-serif;
+
+  /* Page container max-width — matches the Figma desktop layout
+   * (1920px viewport with 100px gutters → 1720px content). Enables the
+   * `max-w-page` utility. */
+  --container-page: 1720px;
+
+  /* Typography scale extensions — Figma uses 10px for the brand
+   * micro-label above each product name, below Tailwind's default text-xs
+   * (12px). Keeps line-height proportional. */
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 1.25;
+
+  /* Letter-spacing scale extensions. Tailwind tops out at
+   * tracking-widest (0.1em); the Figma type system goes further for
+   * navigation labels (0.2em) and brand/category caps (0.25em). */
+  --tracking-label: 0.2em;
+  --tracking-brand: 0.25em;
 }
 
 html {
