@@ -27,6 +27,23 @@
     "es": "Español",
     "en": "English"
   },
+  "cart": {
+    "metadataTitle": "Carrito",
+    "title": "Carrito ({count})",
+    "itemSpecs": "{storage} | {color}",
+    "priceLabel": "{price} EUR",
+    "remove": "Eliminar",
+    "removeAriaLabel": "Eliminar {name} del carrito",
+    "quantityAriaLabel": "Cantidad de {name}",
+    "increaseAriaLabel": "Añadir uno más de {name}",
+    "decreaseAriaLabel": "Quitar uno de {name}",
+    "lineSubtotalAriaLabel": "Subtotal de la línea",
+    "total": "Total",
+    "continueShopping": "Continuar comprando",
+    "pay": "Pagar",
+    "emptyTitle": "Tu carrito está vacío",
+    "emptyBody": "Navega por el catálogo y añade el teléfono que te guste al carrito."
+  },
   "phoneDetail": {
     "backAriaLabel": "Volver al catálogo",
     "priceLabel": "{price} EUR",

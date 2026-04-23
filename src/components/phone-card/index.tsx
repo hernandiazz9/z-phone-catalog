@@ -5,21 +5,11 @@ import type { PhoneListItem } from '@/services/phones.types'
 
 type PhoneCardProps = {
   phone: PhoneListItem
-  // Marks the image as above-the-fold so Next.js eager-loads it and sets
-  // fetchpriority="high". Reserved for the first row of the grid — using
-  // it on every card defeats lazy loading and slows the page.
   priority?: boolean
 }
 
-// Matches the color transition speed to the sliding panel timing.
-// Kept in one place so all three text nodes stay in sync.
 const TEXT_TRANSITION = 'transition-colors duration-300 ease-out'
-
-// Name + price invert to pure white on the hovered/focused black panel.
 const TEXT_TO_WHITE = `${TEXT_TRANSITION} group-hover:text-primary-foreground group-focus-visible:text-primary-foreground`
-
-// Brand label softens to #cccccc (Figma 53:7860, State=Hover) so the
-// hierarchy brand < name / price is preserved even when inverted.
 const BRAND_TO_MUTED_INVERSE = `${TEXT_TRANSITION} group-hover:text-muted-inverse group-focus-visible:text-muted-inverse`
 
 export function PhoneCard({ phone, priority = false }: PhoneCardProps) {

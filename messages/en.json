@@ -28,11 +28,16 @@
     "en": "English"
   },
   "cart": {
+    "metadataTitle": "Cart",
     "title": "Cart ({count})",
     "itemSpecs": "{storage} | {color}",
     "priceLabel": "{price} EUR",
     "remove": "Remove",
     "removeAriaLabel": "Remove {name} from cart",
+    "quantityAriaLabel": "Quantity of {name}",
+    "increaseAriaLabel": "Add one more {name}",
+    "decreaseAriaLabel": "Remove one {name}",
+    "lineSubtotalAriaLabel": "Line subtotal",
     "total": "Total",
     "continueShopping": "Continue shopping",
     "pay": "Pay",

@@ -142,6 +142,41 @@ describe('cart-context', () => {
     expect(result.current.totalCount).toBe(0)
   })
 
+  it('incrementItem bumps the quantity of the matching entry', async () => {
+    const { result } = await setupHook()
+    act(() =>
+      result.current.addItem({
+        phone: samplePhone,
+        storage: sampleStorage256,
+        color: sampleColorBlack,
+      }),
+    )
+    const key = result.current.items[0].key
+
+    act(() => result.current.incrementItem(key))
+    act(() => result.current.incrementItem(key))
+
+    expect(result.current.items[0].quantity).toBe(3)
+    expect(result.current.totalCount).toBe(3)
+    expect(result.current.totalPrice).toBe(1229 * 3)
+  })
+
+  it('decrementItem reduces quantity and removes the entry when it would reach zero', async () => {
+    const { result } = await setupHook()
+    const input = { phone: samplePhone, storage: sampleStorage256, color: sampleColorBlack }
+    act(() => result.current.addItem(input))
+    act(() => result.current.addItem(input))
+    const key = result.current.items[0].key
+
+    act(() => result.current.decrementItem(key))
+    expect(result.current.items[0].quantity).toBe(1)
+    expect(result.current.totalCount).toBe(1)
+
+    act(() => result.current.decrementItem(key))
+    expect(result.current.items).toHaveLength(0)
+    expect(result.current.totalCount).toBe(0)
+  })
+
   it('clearCart empties the cart', async () => {
     const { result } = await setupHook()
     act(() =>

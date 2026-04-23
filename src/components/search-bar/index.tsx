@@ -3,9 +3,8 @@
 import { useRef, useState, useTransition } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import { animation } from '@/config/animation'
 import { usePathname, useRouter } from '@/i18n/navigation'
-
-const DEBOUNCE_MS = 250
 
 export function SearchBar() {
   const t = useTranslations('phoneList')
@@ -14,7 +13,9 @@ export function SearchBar() {
   const searchParams = useSearchParams()
 
   const [value, setValue] = useState(() => searchParams.get('search') ?? '')
-  const [, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition()
+  const [isWaiting, setIsWaiting] = useState(false)
+  const [progressKey, setProgressKey] = useState(0)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   function updateUrl(next: string) {
@@ -35,14 +36,22 @@ export function SearchBar() {
     const next = event.target.value
     setValue(next)
     if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => updateUrl(next), DEBOUNCE_MS)
+    setIsWaiting(true)
+    setProgressKey((k) => k + 1)
+    debounceRef.current = setTimeout(() => {
+      setIsWaiting(false)
+      updateUrl(next)
+    }, animation.searchDebounce)
   }
 
   function onClear() {
     setValue('')
+    setIsWaiting(false)
     if (debounceRef.current) clearTimeout(debounceRef.current)
     updateUrl('')
   }
+
+  const showProgress = isWaiting || isPending
 
   return (
     <div className="border-border relative w-full border-b">
@@ -77,6 +86,13 @@ export function SearchBar() {
             <line x1="18" y1="6" x2="6" y2="18" />
           </svg>
         </button>
+      ) : null}
+      {showProgress ? (
+        <span
+          key={progressKey}
+          aria-hidden="true"
+          className={`bg-foreground animate-search-progress absolute right-0 -bottom-px left-0 h-px origin-left ${isPending ? 'animate-pulse' : ''}`}
+        />
       ) : null}
     </div>
   )

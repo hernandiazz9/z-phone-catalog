@@ -77,6 +77,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems((current) => current.filter((item) => item.key !== key))
   }, [])
 
+  const incrementItem = useCallback((key: string) => {
+    setItems((current) =>
+      current.map((item) => (item.key === key ? { ...item, quantity: item.quantity + 1 } : item)),
+    )
+  }, [])
+
+  const decrementItem = useCallback((key: string) => {
+    setItems((current) =>
+      current.flatMap((item) => {
+        if (item.key !== key) return [item]
+        if (item.quantity <= 1) return []
+        return [{ ...item, quantity: item.quantity - 1 }]
+      }),
+    )
+  }, [])
+
   const clearCart = useCallback(() => {
     setItems([])
   }, [])
@@ -84,8 +100,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo<CartContextValue>(() => {
     const totalCount = items.reduce((sum, item) => sum + item.quantity, 0)
     const totalPrice = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0)
-    return { items, totalCount, totalPrice, isHydrated, addItem, removeItem, clearCart }
-  }, [items, isHydrated, addItem, removeItem, clearCart])
+    return {
+      items,
+      totalCount,
+      totalPrice,
+      isHydrated,
+      addItem,
+      removeItem,
+      incrementItem,
+      decrementItem,
+      clearCart,
+    }
+  }, [items, isHydrated, addItem, removeItem, incrementItem, decrementItem, clearCart])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

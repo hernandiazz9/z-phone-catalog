@@ -46,8 +46,26 @@ describe('search-bar', () => {
       () => {
         expect(replaceMock).toHaveBeenCalledWith('/?search=iphone', { scroll: false })
       },
-      { timeout: 1000 },
+      { timeout: 2000 },
     )
+  })
+
+  it('resets the debounce on every keystroke and only fires once for the final value', async () => {
+    const user = userEvent.setup()
+    renderBar()
+
+    const input = screen.getByRole('searchbox')
+    await user.type(input, 'abc')
+    await user.keyboard('{Backspace}{Backspace}{Backspace}')
+    await user.type(input, 'xyz')
+
+    await waitFor(
+      () => {
+        expect(replaceMock).toHaveBeenCalledWith('/?search=xyz', { scroll: false })
+      },
+      { timeout: 2000 },
+    )
+    expect(replaceMock).toHaveBeenCalledTimes(1)
   })
 
   it('shows a clear button when the input has value and resets the URL on click', async () => {

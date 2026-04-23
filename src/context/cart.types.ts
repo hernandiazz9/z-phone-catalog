@@ -26,5 +26,7 @@ export type CartContextValue = {
   isHydrated: boolean
   addItem: (input: AddToCartInput) => void
   removeItem: (key: string) => void
+  incrementItem: (key: string) => void
+  decrementItem: (key: string) => void
   clearCart: () => void
 }
