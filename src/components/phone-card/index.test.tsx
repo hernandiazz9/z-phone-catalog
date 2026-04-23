@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { NextIntlClientProvider } from 'next-intl'
 import { describe, expect, it, vi } from 'vitest'
 import enMessages from '../../../messages/en.json'
+import { CartProvider } from '@/context/cart-context'
 import { PhoneCard } from '.'
 
 vi.mock('next/image', () => ({
@@ -40,7 +41,9 @@ const samplePhone = {
 function renderCard(priority = false) {
   return render(
     <NextIntlClientProvider locale="en" messages={enMessages}>
-      <PhoneCard phone={samplePhone} priority={priority} />
+      <CartProvider>
+        <PhoneCard phone={samplePhone} priority={priority} />
+      </CartProvider>
     </NextIntlClientProvider>,
   )
 }

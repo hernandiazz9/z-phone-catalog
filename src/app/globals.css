@@ -100,7 +100,7 @@
   100% {
     transform: translate(
         calc(-50% + var(--confetti-burst-x, 0px) + var(--confetti-drift, 0px)),
-        calc(-50% + var(--confetti-burst-y, 0px) + 240px)
+        calc(-50% + var(--confetti-burst-y, 0px) + var(--confetti-fall, 240px))
       )
       scale(0.9) rotate(var(--confetti-rotation, 720deg));
     opacity: 0;

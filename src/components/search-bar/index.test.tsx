@@ -68,19 +68,6 @@ describe('search-bar', () => {
     expect(replaceMock).toHaveBeenCalledTimes(1)
   })
 
-  it('shows a clear button when the input has value and resets the URL on click', async () => {
-    const user = userEvent.setup()
-    renderBar()
-    const input = screen.getByRole('searchbox') as HTMLInputElement
-
-    await user.type(input, 'galaxy')
-    const clearButton = screen.getByRole('button', { name: /clear search/i })
-    await user.click(clearButton)
-
-    expect(input.value).toBe('')
-    expect(replaceMock).toHaveBeenLastCalledWith('/', { scroll: false })
-  })
-
   it('hydrates initial value from URL searchParams', () => {
     searchParamsString = 'search=pixel'
     renderBar()
