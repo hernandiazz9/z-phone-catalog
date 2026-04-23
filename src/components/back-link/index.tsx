@@ -11,7 +11,7 @@ export function BackLink() {
     <button
       type="button"
       onClick={() => router.back()}
-      className="text-foreground focus-visible:outline-foreground tracking-label inline-flex items-center gap-1 text-sm uppercase focus-visible:outline-2 focus-visible:outline-offset-2"
+      className="text-foreground focus-visible:outline-foreground tracking-label inline-flex items-center gap-1 text-sm uppercase transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2"
     >
       <svg
         width="16"

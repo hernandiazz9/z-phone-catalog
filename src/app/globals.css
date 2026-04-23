@@ -36,6 +36,11 @@
   /* DOC/Background/Mid */
   --color-border: #ebebeb;
 
+  /* Semantic red for destructive actions (the "Remove" link in the cart
+   * is the only current consumer). Kept as a token so the red lives in
+   * one place if we add more destructive UI later. */
+  --color-destructive: #dc2626;
+
   /* The challenge PDF mandates this exact font stack. Figma's display
    * family ("Neue Helvetica for Zara") is proprietary and ignored. */
   --font-sans: Helvetica, Arial, sans-serif;
@@ -66,6 +71,102 @@
   --breakpoint-tablet: 48rem;
   --breakpoint-desktop: 80rem;
   --breakpoint-wide: 96rem;
+
+  /* Animation tokens — one-shot feedback micro-animations for "just happened"
+   * moments. Kept as tokens so the timing stays consistent across the app
+   * (e.g. confetti burst and the cart bounce both feel part of the same
+   * interaction even though they fire on different elements). */
+  --animate-confetti: confetti 1500ms ease-out forwards;
+  --animate-cart-bounce: cart-bounce 400ms ease-in-out;
+  --animate-cart-icon-flash: cart-icon-flash 600ms ease-in-out;
+  --animate-card-enter: card-enter 380ms ease-out both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-search-progress: search-progress 600ms linear forwards;
+}
+
+@keyframes confetti {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(
+        calc(-50% + var(--confetti-burst-x, 0px)),
+        calc(-50% + var(--confetti-burst-y, 0px))
+      )
+      scale(1) rotate(calc(var(--confetti-rotation, 720deg) * 0.3));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+        calc(-50% + var(--confetti-burst-x, 0px) + var(--confetti-drift, 0px)),
+        calc(-50% + var(--confetti-burst-y, 0px) + 240px)
+      )
+      scale(0.9) rotate(var(--confetti-rotation, 720deg));
+    opacity: 0;
+  }
+}
+
+@keyframes cart-bounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.3);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes cart-icon-flash {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(1.25) rotate(-8deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2) rotate(6deg);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(1.1) rotate(-3deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes card-enter {
+  0% {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes search-progress {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
 }
 
 html {
@@ -88,4 +189,15 @@ body {
 *:focus-visible {
   outline: 2px solid var(--color-foreground);
   outline-offset: 2px;
+}
+
+/* Tailwind/Preflight resets `cursor: default` on button, which hides the
+ * "this is clickable" affordance. Restore pointer on every interactive
+ * element unless it's disabled — disabled elements keep not-allowed. */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+[role='radio']:not([aria-disabled='true']),
+select:not(:disabled),
+summary {
+  cursor: pointer;
 }

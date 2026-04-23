@@ -53,7 +53,7 @@ export function ColorSelector({ options, selected, onSelect }: Props) {
               onClick={() => onSelect(option)}
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={clsx(
-                'focus-visible:outline-foreground relative h-6 w-6 border transition-shadow duration-200 focus-visible:outline-2 focus-visible:outline-offset-4',
+                'focus-visible:outline-foreground relative h-6 w-6 border transition duration-200 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-4',
                 isSelected
                   ? 'ring-foreground border-transparent ring-1 ring-offset-2'
                   : 'border-border',

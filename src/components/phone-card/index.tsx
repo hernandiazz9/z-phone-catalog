@@ -22,7 +22,7 @@ export function PhoneCard({ phone, priority = false }: PhoneCardProps) {
     >
       <span
         aria-hidden="true"
-        className="bg-foreground absolute inset-0 translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0 group-focus-visible:translate-y-0"
+        className="bg-foreground absolute inset-0 translate-y-full transition-transform duration-600 ease-in-out group-hover:translate-y-0 group-focus-visible:translate-y-0"
       />
 
       <div className="relative min-h-0 flex-1">
