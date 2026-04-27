@@ -8,9 +8,9 @@
     "description": "Scaffold listo. La vista de listado se implementa en la siguiente fase."
   },
   "header": {
-    "homeAriaLabel": "Ir al inicio",
     "cartAriaLabel": "Carrito, {count, plural, =0 {sin artículos} one {# artículo} other {# artículos}}",
-    "back": "Volver"
+    "back": "Volver",
+    "skipToContent": "Saltar al contenido"
   },
   "phoneList": {
     "searchPlaceholder": "Buscar un smartphone…",

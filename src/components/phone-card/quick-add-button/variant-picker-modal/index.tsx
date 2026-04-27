@@ -45,6 +45,7 @@ export function VariantPickerModal({ phone, open, onClose, onConfirm }: Props) {
       onClick={(event) => {
         if (event.target === dialogRef.current) onClose()
       }}
+      aria-modal="true"
       aria-labelledby="quick-pick-title"
       className="bg-background text-foreground m-auto w-full max-w-lg p-0 backdrop:bg-black/40"
     >

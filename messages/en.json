@@ -8,9 +8,9 @@
     "description": "Scaffold ready. The listing view will be implemented in the next phase."
   },
   "header": {
-    "homeAriaLabel": "Go to home",
     "cartAriaLabel": "Cart, {count, plural, =0 {empty} one {# item} other {# items}}",
-    "back": "Back"
+    "back": "Back",
+    "skipToContent": "Skip to content"
   },
   "phoneList": {
     "searchPlaceholder": "Search for a smartphone…",

@@ -82,6 +82,7 @@ export function QuickAddButton({ phone }: Props) {
         onClick={handleClick}
         disabled={state.kind === 'loading'}
         aria-label={ariaLabel}
+        aria-busy={state.kind === 'loading'}
         className="bg-background text-foreground border-border hover:bg-foreground hover:text-primary-foreground hover:border-foreground focus-visible:outline-foreground relative inline-flex h-10 w-10 items-center justify-center overflow-visible rounded-full border shadow-sm transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-wait disabled:opacity-70"
       >
         {state.kind === 'added' ? (

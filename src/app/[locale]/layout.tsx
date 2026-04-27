@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { AnimationRootVars } from '@/components/animation-root-vars'
 import { Header } from '@/components/header'
+import { SkipLink } from '@/components/skip-link'
 import { CartProvider } from '@/context/cart-context'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
@@ -48,6 +49,7 @@ export default async function LocaleLayout({
     <html lang={locale} className="h-full antialiased">
       <body className="flex min-h-full flex-col">
         <AnimationRootVars />
+        <SkipLink />
         <NextIntlClientProvider>
           <CartProvider>
             <Header />

@@ -62,18 +62,18 @@ describe('phone-card', () => {
     expect(link.getAttribute('href')).toBe('/phone/APL-IP13-128')
   })
 
-  it('uses the phone name as image alt text', () => {
+  it('uses brand and name as image alt text', () => {
     renderCard()
-    expect(screen.getByAltText('iPhone 13')).toBeInTheDocument()
+    expect(screen.getByAltText('Apple iPhone 13')).toBeInTheDocument()
   })
 
   it('lazy-loads the image by default', () => {
     renderCard()
-    expect(screen.getByAltText('iPhone 13')).toHaveAttribute('loading', 'lazy')
+    expect(screen.getByAltText('Apple iPhone 13')).toHaveAttribute('loading', 'lazy')
   })
 
   it('eager-loads the image when priority is true', () => {
     renderCard(true)
-    expect(screen.getByAltText('iPhone 13')).toHaveAttribute('loading', 'eager')
+    expect(screen.getByAltText('Apple iPhone 13')).toHaveAttribute('loading', 'eager')
   })
 })

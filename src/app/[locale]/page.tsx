@@ -15,7 +15,10 @@ export default async function HomePage({ params, searchParams }: HomePageProps) 
   const { search } = await searchParams
 
   return (
-    <main className="max-w-page tablet:px-6 desktop:px-10 wide:px-25 mx-auto flex w-full flex-1 flex-col gap-8 px-4 py-6">
+    <main
+      id="main-content"
+      className="max-w-page tablet:px-6 desktop:px-10 wide:px-25 mx-auto flex w-full flex-1 flex-col gap-8 px-4 py-6"
+    >
       <SearchBar />
       <Suspense key={search ?? ''} fallback={<PhoneListSkeleton />}>
         <PhoneList search={search} />

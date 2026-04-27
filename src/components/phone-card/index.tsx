@@ -30,7 +30,7 @@ export function PhoneCard({ phone, priority = false }: PhoneCardProps) {
         <div className="relative min-h-0 flex-1">
           <Image
             src={phone.imageUrl}
-            alt={phone.name}
+            alt={`${phone.brand} ${phone.name}`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, (max-width: 1536px) 25vw, 344px"
             className="object-contain"
