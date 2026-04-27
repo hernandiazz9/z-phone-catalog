@@ -161,9 +161,15 @@ src/
 ## 8. State management
 
 - **React Context API** for global state (Zara challenge requirement). One
-  provider per domain in `src/context/`.
-- **Cart state persists in `localStorage`.** Use a `use-cart` hook that
-  hydrates from storage on mount and writes on every change.
+  provider per domain in `src/context/`. Existing providers:
+  - [`cart-context.tsx`](src/context/cart-context.tsx) — exports
+    `CartProvider` and `useCart`. Persists to `localStorage` and exposes
+    an `isHydrated` flag (see §15).
+  - [`toast-context.tsx`](src/context/toast-context.tsx) — exports
+    `ToastProvider` and `useToast`. The hook returns a no-op when used
+    outside the provider on purpose (see §15).
+- **Cart state persists in `localStorage`.** Hydration happens after mount
+  via the `isHydrated` flag, never as initial state — see §15.
 - Avoid prop-drilling more than two levels deep — if you do, reach for a
   context.
 
@@ -192,6 +198,21 @@ src/
 - Keyboard-only navigation must work end-to-end.
 - `focus-visible` outline is already globally styled in `globals.css`;
   don't remove it.
+- **Skip link** lives in [`src/components/skip-link/`](src/components/skip-link/).
+  Invisible until focused, jumps to `#main-content`. Every `<main>`
+  carries that id — don't change one end without the other.
+- **Live announcements:** use `aria-live="polite"` on counters and totals
+  that change at runtime (cart count, search results, line subtotals).
+  Use `aria-busy="true"` on buttons or regions that are temporarily
+  disabled by an in-flight action (see the `quick-add-button` loading
+  state for the pattern).
+- **Modals**: native `<dialog>` + `dialogRef.current.showModal()` (focus
+  trap and Esc-to-close come for free). Always add `aria-modal="true"`
+  explicitly and `aria-labelledby` pointing to the dialog heading.
+- **WCAG 2.5.3 (Label in Name)**: when an element has visible text, the
+  accessible name must start with that text. Don't add an `aria-label`
+  that contradicts the visible label (the header logo learnt this the
+  hard way — see commit history).
 
 ## 12. Next.js 16 specifics
 
@@ -212,7 +233,64 @@ src/
 - Pre-commit hook (Husky + lint-staged) will run ESLint + Prettier on
   staged files — don't bypass with `--no-verify`.
 
-## 14. Quality gates
+## 14. Animations
+
+Animation timings live in **one place** to keep the UI feeling cohesive
+and to avoid JS timers and CSS keyframes drifting apart. To add a new
+animation, touch three files:
+
+1. **[`src/config/animation.ts`](src/config/animation.ts)** — add the
+   duration in milliseconds (single source of truth).
+2. **[`src/app/globals.css`](src/app/globals.css)** — add the `@keyframes`
+   block and a matching `--animate-*` token under `@theme`. The token
+   makes Tailwind generate the `animate-*` utility (e.g. `animate-toast-enter`).
+3. **[`src/components/animation-root-vars/`](src/components/animation-root-vars/)**
+   — add a runtime override that re-declares the same `--animate-*`
+   variable using the JS-side duration. This component is rendered once
+   in the locale layout, so a single config change propagates to both
+   JS timers and CSS animations.
+
+Why three places: keyframes are static (CSS), durations vary by
+config (JS), Tailwind needs the token to generate utilities. The
+`AnimationRootVars` indirection is what keeps JS and CSS in sync.
+
+## 15. Internal patterns / gotchas
+
+Things that aren't deducible from the code alone:
+
+- **`isHydrated` flag for `localStorage` state.** The cart starts as `[]`
+  on the server and hydrates from `localStorage` after mount. Components
+  that depend on cart data check `isHydrated` first and render a skeleton
+  with `aria-busy="true"` until hydration finishes. This avoids
+  SSR/CSR mismatch warnings. **Don't read `localStorage` in initial
+  state** — it'll diverge between server and client.
+
+- **`useToast` no-op fallback.** `useToast()` outside of a `ToastProvider`
+  returns `{ show: () => {}, dismiss: () => {} }` instead of throwing.
+  This is deliberate: it lets isolated component tests skip wrapping with
+  `ToastProvider`. Don't "fix" it by throwing — you'll break unrelated
+  tests across the suite.
+
+- **Server-only services vs client route handlers.**
+  [`src/services/phones.service.ts`](src/services/phones.service.ts)
+  imports `'server-only'` and uses the `x-api-key` directly. RSC pages
+  call it. Client components hit
+  [`src/app/api/phones/[id]/route.ts`](src/app/api/phones/[id]/route.ts),
+  which proxies to the same service server-side. **Never expose the API
+  key to the client** — that's why the proxy exists in the first place.
+
+- **`tablet:contents` for dual-layout footers.** The cart summary uses
+  `display: contents` on tablet+ to drop a wrapping `<div>` from the flex
+  flow, so a single piece of markup renders as stacked-mobile and
+  3-column-desktop without duplication. See
+  [`src/components/cart/cart-summary/index.tsx`](src/components/cart/cart-summary/index.tsx).
+  Pattern is reusable when a wrapper exists only for mobile layout.
+
+- **`PRIORITY_IMAGE_COUNT = 1` in the listing.** Only the first card has
+  `priority` to avoid the `preloaded but not used` browser warning when
+  navigating away. Don't bump it without a real LCP win.
+
+## 16. Quality gates
 
 Before declaring any task done, these must pass:
 
