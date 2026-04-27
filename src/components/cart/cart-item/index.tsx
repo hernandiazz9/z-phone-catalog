@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import type { CartItem as CartItemModel } from '@/context/cart.types'
+import { useToast } from '@/context/toast-context'
 import { QuantityStepper } from './quantity-stepper'
 
 type Props = {
@@ -14,7 +15,14 @@ type Props = {
 
 export function CartItem({ item, onRemove, onIncrement, onDecrement }: Props) {
   const t = useTranslations('cart')
+  const tToast = useTranslations('toast')
+  const { show: showToast } = useToast()
   const lineSubtotal = item.unitPrice * item.quantity
+
+  function handleRemove() {
+    onRemove()
+    showToast(tToast('removed'))
+  }
 
   return (
     <article className="tablet:gap-8 tablet:p-6 flex gap-4 p-4">
@@ -53,7 +61,7 @@ export function CartItem({ item, onRemove, onIncrement, onDecrement }: Props) {
 
         <button
           type="button"
-          onClick={onRemove}
+          onClick={handleRemove}
           aria-label={t('removeAriaLabel', { name: item.name })}
           className="text-destructive focus-visible:outline-foreground self-start text-xs tracking-widest uppercase transition-opacity hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2"
         >

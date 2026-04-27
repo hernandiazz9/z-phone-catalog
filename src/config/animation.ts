@@ -1,12 +1,3 @@
-/**
- * Single source of truth for every animation timing in the app. All values
- * are milliseconds. Tweak a duration here and both the JS timers and the
- * CSS `--animate-*` tokens update — CSS side is derived via the
- * `<AnimationRootVars />` component rendered in the locale layout.
- *
- * CSS-side keyframes (shapes of the animations) still live in
- * src/app/globals.css. Only the durations are centralised.
- */
 export const animation = {
   addToCartFeedback: 1600,
   confetti: 1500,
@@ -22,4 +13,7 @@ export const animation = {
   searchProgress: 500,
 
   shimmer: 1600,
+
+  toastVisible: 2500,
+  toastEnter: 220,
 } as const

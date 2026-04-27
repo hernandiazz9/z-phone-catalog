@@ -8,6 +8,7 @@ export function AnimationRootVars() {
   --animate-card-enter: card-enter ${animation.cardEnter}ms ease-out both;
   --animate-shimmer: shimmer ${animation.shimmer}ms linear infinite;
   --animate-search-progress: search-progress ${animation.searchProgress}ms linear forwards;
+  --animate-toast-enter: toast-enter ${animation.toastEnter}ms ease-out both;
 }`
   return <style>{css}</style>
 }

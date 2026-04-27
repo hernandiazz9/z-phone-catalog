@@ -12,6 +12,11 @@
     "back": "Back",
     "skipToContent": "Skip to content"
   },
+  "toast": {
+    "added": "Added to cart",
+    "removed": "Removed from cart",
+    "dismissAriaLabel": "Dismiss notification"
+  },
   "phoneList": {
     "searchPlaceholder": "Search for a smartphone…",
     "searchAriaLabel": "Search smartphones by name or brand",

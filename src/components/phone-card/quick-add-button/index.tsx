@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { ConfettiBurst } from '@/components/confetti-burst'
 import { animation } from '@/config/animation'
 import { useCart } from '@/context/cart-context'
+import { useToast } from '@/context/toast-context'
 import type { ColorOption, Phone, PhoneListItem, StorageOption } from '@/services/phones.types'
 import { VariantPickerModal } from './variant-picker-modal'
 
@@ -27,7 +28,9 @@ type State =
 
 export function QuickAddButton({ phone }: Props) {
   const t = useTranslations('phoneList')
+  const tToast = useTranslations('toast')
   const { addItem } = useCart()
+  const { show: showToast } = useToast()
   const [state, setState] = useState<State>({ kind: 'idle' })
   const [burstId, setBurstId] = useState(0)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -40,6 +43,7 @@ export function QuickAddButton({ phone }: Props) {
 
   function triggerAdded(color: ColorOption, storage: StorageOption) {
     addItem({ phone: { id: phone.id, brand: phone.brand, name: phone.name }, color, storage })
+    showToast(tToast('added'))
     setState({ kind: 'added' })
     setBurstId((k) => k + 1)
     if (timerRef.current) clearTimeout(timerRef.current)

@@ -6,6 +6,7 @@ import { AnimationRootVars } from '@/components/animation-root-vars'
 import { Header } from '@/components/header'
 import { SkipLink } from '@/components/skip-link'
 import { CartProvider } from '@/context/cart-context'
+import { ToastProvider } from '@/context/toast-context'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
@@ -51,10 +52,12 @@ export default async function LocaleLayout({
         <AnimationRootVars />
         <SkipLink />
         <NextIntlClientProvider>
-          <CartProvider>
-            <Header />
-            {children}
-          </CartProvider>
+          <ToastProvider>
+            <CartProvider>
+              <Header />
+              {children}
+            </CartProvider>
+          </ToastProvider>
         </NextIntlClientProvider>
       </body>
     </html>

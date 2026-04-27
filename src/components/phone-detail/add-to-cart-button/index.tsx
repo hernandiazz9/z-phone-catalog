@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { ConfettiBurst } from '@/components/confetti-burst'
 import { animation } from '@/config/animation'
 import { useCart } from '@/context/cart-context'
+import { useToast } from '@/context/toast-context'
 import type { ColorOption, Phone, StorageOption } from '@/services/phones.types'
 
 type Props = {
@@ -15,7 +16,9 @@ type Props = {
 
 export function AddToCartButton({ phone, color, storage }: Props) {
   const t = useTranslations('phoneDetail')
+  const tToast = useTranslations('toast')
   const { addItem } = useCart()
+  const { show: showToast } = useToast()
   const [justAdded, setJustAdded] = useState(false)
   const [burstId, setBurstId] = useState(0)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -31,6 +34,7 @@ export function AddToCartButton({ phone, color, storage }: Props) {
   function handleClick() {
     if (!color || !storage) return
     addItem({ phone, color, storage })
+    showToast(tToast('added'))
     setJustAdded(true)
     setBurstId((k) => k + 1)
     if (timerRef.current) clearTimeout(timerRef.current)

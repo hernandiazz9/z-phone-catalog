@@ -82,6 +82,7 @@
   --animate-card-enter: card-enter 380ms ease-out both;
   --animate-shimmer: shimmer 1.6s linear infinite;
   --animate-search-progress: search-progress 600ms linear forwards;
+  --animate-toast-enter: toast-enter 220ms ease-out both;
 }
 
 @keyframes confetti {
@@ -166,6 +167,17 @@
   }
   100% {
     transform: scaleX(1);
+  }
+}
+
+@keyframes toast-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

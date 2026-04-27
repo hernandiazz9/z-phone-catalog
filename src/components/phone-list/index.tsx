@@ -4,7 +4,7 @@ import { listPhones } from '@/services/phones.service'
 import { PhoneCard } from '../phone-card'
 
 const PAGE_SIZE = 20
-const PRIORITY_IMAGE_COUNT = 5
+const PRIORITY_IMAGE_COUNT = 1
 
 type PhoneListProps = {
   search?: string
