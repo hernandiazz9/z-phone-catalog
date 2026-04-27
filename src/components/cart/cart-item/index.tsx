@@ -18,12 +18,12 @@ export function CartItem({ item, onRemove, onIncrement, onDecrement }: Props) {
 
   return (
     <article className="tablet:gap-8 tablet:p-6 flex gap-4 p-4">
-      <div className="tablet:w-40 desktop:w-48 relative aspect-square w-24 shrink-0">
+      <div className="tablet:w-40 desktop:w-48 relative aspect-square w-28 shrink-0">
         <Image
           src={item.imageUrl}
           alt={`${item.brand} ${item.name}`}
           fill
-          sizes="(max-width: 768px) 96px, (max-width: 1280px) 160px, 192px"
+          sizes="(max-width: 768px) 112px, (max-width: 1280px) 160px, 192px"
           className="object-contain"
         />
       </div>

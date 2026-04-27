@@ -25,7 +25,7 @@ export function CartView() {
   }
 
   return (
-    <section className="flex flex-col gap-10">
+    <section className="tablet:pb-32 flex flex-col gap-10 pb-44">
       <h1 className="text-foreground text-xl tracking-widest uppercase">
         {t('title', { count: totalCount })}
       </h1>
